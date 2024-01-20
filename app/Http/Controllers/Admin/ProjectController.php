@@ -37,7 +37,7 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-        $data = $request->validated();
+        $data = $request->all();
         //$slug = Str::slug($data['title'],'-');
         $userId = auth()->id(); // or Auth::id();
         $data['slug'] =Project::getSlug($data['title']) ;

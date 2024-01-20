@@ -15,4 +15,11 @@ class ProjectController extends Controller
             'projects' => $projects
         ]);
     }
+    public function show($id){
+        $project = Project::where('id',$id)->with(['category','technologies'])->get();
+        return response()->json([
+            'success'=>true,
+            'project' => $project
+        ]);
+    }
 }
