@@ -15,8 +15,8 @@ class ProjectController extends Controller
             'projects' => $projects
         ]);
     }
-    public function show($id){
-        $project = Project::where('id',$id)->with(['category','technologies'])->get();
+    public function show($slug){
+        $project = Project::where('slug',$slug)->with(['category','technologies'])->first();
         return response()->json([
             'success'=>true,
             'project' => $project
