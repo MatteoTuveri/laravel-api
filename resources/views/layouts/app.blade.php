@@ -27,7 +27,7 @@
             <div class="container">
                 <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
                     <div class="logo_laravel">
-                        <img src="{{ asset('storage/images/Senza-titolo-1.gif') }}" alt="logo">
+                        <img src="{{ asset('Senza-titolo-1.gif') }}" alt="logo">
                     </div>
                     {{-- config('app.name', 'Laravel') --}}
                 </a>
