@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class CategoryController extends Controller
@@ -16,7 +17,7 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::all();
-        return view('admin.categories.index',compact('categories'));
+        return view('admin.categories.index', compact('categories'));
     }
 
     /**
@@ -24,6 +25,10 @@ class CategoryController extends Controller
      */
     public function create()
     {
+        $currentUserId = Auth::id();
+        if ($currentUserId != 1) {
+            abort(403);
+        }
         return view('admin.categories.create');
     }
 
@@ -32,12 +37,12 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        $data = $request->validated();
+        $formData = $request->validated();
         //CREATE SLUG
-        $slug = Str::of($data['name'])->slug('-');
+        $slug = Str::of($formData['name'])->slug('-');
         //add slug to formData
-        $data['slug'] = $slug;
-        $category = Category::create($data);
+        $formData['slug'] = $slug;
+        $category = Category::create($formData);
         return redirect()->route('admin.categories.show', $category->slug);
     }
 
@@ -46,7 +51,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return view('admin.categories.show',compact('category'));
+        return view('admin.categories.show', compact('category'));
     }
 
     /**
@@ -54,7 +59,11 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        return view('admin.categories.edit',compact('category'));
+        $currentUserId = Auth::id();
+        if ($currentUserId != 1) {
+            abort(403);
+        }
+        return view('admin.categories.edit', compact('category'));
     }
 
     /**
@@ -62,16 +71,15 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        $data = $request->validated();
-        $data['slug'] = $category->slug;
-
-        if ($category->name !== $data['name']) {
-            //CREATE SLUG
-            $slug = Str::of($data['name'])->slug('-');
-            $data['slug'] = $slug;
+        $formData = $request->validated();
+        $formData['slug'] = $category->slug;
+        if ($category->name !== $formData['name']) {
+            $slug = Str::of($formData['name'])->slug('-');
+            $formData['slug'] = $slug;
         }
-        $category->update($data);
+        $category->update($formData);
         return redirect()->route('admin.categories.show', $category->slug);
+
     }
 
     /**
@@ -79,6 +87,10 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+        $currentUserId = Auth::id();
+        if ($currentUserId != 1) {
+            abort(403);
+        }
         $category->delete();
         return to_route('admin.categories.index')->with('message', "$category->name eliminato con successo");
     }

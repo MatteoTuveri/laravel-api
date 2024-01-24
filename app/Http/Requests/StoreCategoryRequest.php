@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class StoreCategoryRequest extends FormRequest
 {
@@ -23,7 +22,19 @@ class StoreCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            
+
+            'name' => ['required', 'min:3', 'max:200', 'unique:categories'],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'Il nome è obbligatorio',
+            'name.min' => 'Il titolo deve avere almeno :min caratteri',
+            'name.max' => 'Il titolo deve avere massimo :max caratteri',
+            'name.unique' => 'Questa categoria esiste già'
+
         ];
     }
 }

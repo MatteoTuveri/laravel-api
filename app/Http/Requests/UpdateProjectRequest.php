@@ -27,7 +27,7 @@ class UpdateProjectRequest extends FormRequest
             'release_date' =>['required'],
             'image' => ['nullable','image'],
             'category_id' => ['nullable','exists:categories,id'],
-            'technologies' => ['nullable']
+            'technologies' => ['nullable','exists:technologies,id']
         ];
     }
 
@@ -37,7 +37,9 @@ class UpdateProjectRequest extends FormRequest
             'title.min' => 'il titolo deve avere almeno :min caratteri',
             'title.max' => 'il titolo deve avere massimo :max caratteri',
             'release_date.required' => 'La data di rilascio è obbligatoria',
-            'image.image' => 'L\'immagine deve essere un url'
+            'image.image' => 'L\'immagine deve essere un file',
+            'category_id.exists' => 'La categoria non esiste',
+            'technologies.exists' => 'Una o più tecnologie non esistono',
         ];
     }
 }

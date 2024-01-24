@@ -36,5 +36,5 @@
         <a href="{{ route('admin.technologies.create') }}" class="btn btn-primary text-decoration-none">Add technology</a>
     </div>
 </section>
-
+@include('layouts.partials.modal')
 @endsection

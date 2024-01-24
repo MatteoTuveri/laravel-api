@@ -12,3 +12,23 @@ $fa-font-path: "../fonts/webfonts" !default;
 h1 {
     color: $text-color;
 }
+.logo_laravel{
+    
+    img{
+        width: 200px;
+        height: 80px;
+        object-fit: cover;
+    }
+}
+
+.bg-nav-header{
+    background: rgb(48,149,255);
+    background: linear-gradient(180deg, rgba(48,149,255,1) 0%, rgba(255,255,255,0.9864320728291317) 100%);
+}
+
+.img-show{
+    width: 500px;
+    img{
+        width: 100%;
+    }
+}

@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::table('projects', function (Blueprint $table) {
             $table->unsignedBigInteger('category_id')->nullable()->after('user_id');
-            $table->foreign('category_id')->references('id')->on('categories')->nullOnDelete();
+            $table->foreign('category_id')
+                ->references('id')
+                ->on('categories')->nullOnDelete();
         });
     }
 

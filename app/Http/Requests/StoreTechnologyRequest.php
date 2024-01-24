@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreTechnologyRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class StoreTechnologyRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +23,20 @@ class StoreTechnologyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required',Rule::unique('technology')->ignore($this->technology)],
+            'name' => ['required','min:3', 'max:200', 'unique:technologies'],
+            'documentation' =>['nullable','url'],
+            'icon' =>['nullable','image']
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'name.required' => 'Il nome è obbligatorio',
+            'name.min' => 'Il nome deve avere almeno :min caratteri',
+            'name.max' => 'Il nome deve avere massimo :max caratteri',
+            'name.unique' => 'Questa tecnologia esiste già',
+            'documentation.url' => 'Linkare la documentazione',
+            'icon.image' => 'L\'immagine deve essere un file',
         ];
     }
 }

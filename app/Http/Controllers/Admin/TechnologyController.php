@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Technology;
 use App\Http\Requests\StoreTechnologyRequest;
 use App\Http\Requests\UpdateTechnologyRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class TechnologyController extends Controller
@@ -15,8 +17,13 @@ class TechnologyController extends Controller
      */
     public function index()
     {
-        $technologies = Technology::all();
-        return view('admin.technologies.index',compact('technologies'));
+        $currentUserId = Auth::id();
+        if ($currentUserId == 1) {
+            $technologies = Technology::all();
+        } else {
+            $technologies = Technology::where('user_id', $currentUserId)->get();
+        }
+        return view('admin.technologies.index', compact('technologies'));
     }
 
     /**
@@ -32,13 +39,15 @@ class TechnologyController extends Controller
      */
     public function store(StoreTechnologyRequest $request)
     {
-        $data = $request->validated();
-        //CREATE SLUG
-        $slug = Str::of($data['name'])->slug('-');
-        //add slug to formData
-        $data['slug'] = $slug;
-        $technology = Technology::create($data);
-        return redirect()->route('admin.tags.show', $technology->slug);
+        $formData = $request->validated();
+        $slug = Str::of($formData['name'])->slug('-');
+        if ($request->hasFile('icon')) {
+            $path = Storage::put('images', $formData['icon']);
+            $formData['icon'] = $path;
+        }
+        $formData['slug'] = $slug;
+        $technology = Technology::create($formData);
+        return redirect()->route('admin.technologies.show', $technology->slug);
     }
 
     /**
@@ -46,7 +55,7 @@ class TechnologyController extends Controller
      */
     public function show(Technology $technology)
     {
-        return view('admin.technologies.show',compact('technology'));
+        return view('admin.technologies.show', compact('technology'));
     }
 
     /**
@@ -54,7 +63,11 @@ class TechnologyController extends Controller
      */
     public function edit(Technology $technology)
     {
-        return view('admin.technologies.edit',compact('technology'));
+        $currentUserId = Auth::id();
+        if ($currentUserId != 1) {
+            abort(403);
+        }
+        return view('admin.technologies.edit', compact('technology'));
     }
 
     /**
@@ -62,16 +75,21 @@ class TechnologyController extends Controller
      */
     public function update(UpdateTechnologyRequest $request, Technology $technology)
     {
-        $data = $request->validated();
-        $data['slug'] = $technology->slug;
-
-        if ($technology->name !== $data['name']) {
-            //CREATE SLUG
-            $slug = Str::of($data['name'])->slug('-');
-            $data['slug'] = $slug;
+        $formData = $request->validated();
+        $formData['slug'] = $technology->slug;
+        if ($technology->name !== $formData['name']) {
+            $slug = Str::of($formData['name'])->slug('-');
+            $formData['slug'] = $slug;
         }
-        $technology->update($data);
-        return redirect()->route('admin.tags.show', $technology->slug);
+        if ($request->hasFile('icon')) {
+            if ($technology->icon) {
+                Storage::delete($technology->icon);
+            }
+            $path = Storage::put('images', $formData['icon']);
+            $formData['icon'] = $path;
+        }
+        $technology->update($formData);
+        return redirect()->route('admin.technologies.show', $technology->slug);
     }
 
     /**
@@ -79,7 +97,11 @@ class TechnologyController extends Controller
      */
     public function destroy(Technology $technology)
     {
+        $currentUserId = Auth::id();
+        if ($currentUserId != 1) {
+            abort(403);
+        }
         $technology->delete();
-        return to_route('admin.tags.index')->with('message', "$technology->name eliminato con successo");
+        return to_route('admin.technologies.index')->with('message', "$technology->name eliminato con successo");
     }
 }

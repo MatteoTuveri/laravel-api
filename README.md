@@ -202,3 +202,67 @@ Route::fallback(function() {
 });
 
 ```
+
+## Upload images
+
+```bash
+## aprire "config/filesystem.php" e cambiare da 'local' a 'public'
+##sul terminale creare lo storage 
+php artisan storage:link
+
+##ai form applicare 
+
+enctype="multipart/form-data" 
+
+## per uplodare un file, cambiare da type="text" a type="file" negli input per le immagini
+
+## nel controller in sore e update:
+
+##per caricare
+$path = Storage::put('images',$request->image);
+
+##per eliminare
+Storage::delete($project->image);
+
+## per leggerlo 
+ <img src="{{asset('storage/'. $project->image)}}"></img>
+
+```
+
+## Correlations
+
+```bash
+# Esempio tabella "project" con tabella "users"
+
+##fare una migration di upload e in "up" scrivere
+Schema::table('Projects', function (Blueprint $table) {
+    $table->foreign('user_id')
+    ->references('id')
+    ->on('users')
+    ->cascadeOnDelete();
+});
+
+## in "down" invece scrivere
+Schema::table('Projects', function (Blueprint $table) {
+    $table->dropForeign('projects_user_id_foreign');
+    $table->dropColumn('user_id');
+});
+
+## fare la migrate:
+php artisan migrate
+
+
+# One to Many
+
+## Nel model di 'user'
+public function projects()
+{
+    return $this->hasMany(Project::class);
+}
+
+## Nel model di project
+public function user()
+{
+    return $this->belongsTo(User::class);
+}     
+```

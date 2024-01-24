@@ -41,5 +41,5 @@
         <a href="{{ route('admin.projects.create') }}" class="btn btn-primary text-decoration-none">Add Project</a>
     </div>
 </section>
-
+@include('layouts.partials.modal')
 @endsection

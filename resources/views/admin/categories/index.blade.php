@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <section class="container">
-    <h1>Categories</h1>
+    <h1>categories</h1>
     <table class="table table-hover">
         <thead>
             <tr class="text-center">
@@ -36,5 +36,5 @@
         <a href="{{ route('admin.categories.create') }}" class="btn btn-primary text-decoration-none">Add category</a>
     </div>
 </section>
-
+@include('layouts.partials.modal')
 @endsection

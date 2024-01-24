@@ -12,7 +12,7 @@
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
     </div>
-<div class="mb-3">
+    <div class="mb-3">
             <label for="category_id">Select Category</label>
             <select class="form-control @error('category_id') is-invalid @enderror" name="category_id" id="category_id">
                 <option value="">Select a category</option>
@@ -24,7 +24,6 @@
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
     </div>
-
     <div class="mb-3">
         <label for="description">description</label>
         <textarea class="form-control @error('description') is-invalid @enderror" name="description" id="description" cols="30" rows="10">{{ old('description') }}
@@ -33,9 +32,23 @@
             <div class="invalid-feedback">{{ $message }}</div>
         @enderror
     </div>
+    <div class="mb-3">
+        <label for="authors">Authors</label>
+        <input type="text" class="form-control @error('authors') is-invalid @enderror" name="authors" id="authors">
+        @error('authors')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
+    <div class="mb-3">
+        <label for="release_date">Release Date</label>
+        <input type="date" class="form-control @error('release_date') is-invalid @enderror" name="release_date" id="release_date">
+        @error('release_date')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
    <div class="mb-3">
     <div class="form-group">
-        <h6>Select technologies</h6>
+        <h6>Select Technologies</h6>
         @foreach ($technologies as $technology)
             <div class="form-check @error('technologies') is-invalid @enderror">
                 <input type="checkbox" class="form-check-input" name="technologies[]" value="{{ $technology->id }}"  {{ in_array($technology->id, old('technologies',[])) ? 'checked' : '' }} >

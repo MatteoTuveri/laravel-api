@@ -16,6 +16,13 @@ return [
             "release_date" => '2023-09-20',
             "image" => 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.addlance.com%2Fblog%2Fimmagini-da-scaricare%2F&psig=AOvVaw202Og3mNTSVCLT-4BetoEX&ust=1705425950700000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMj3wfT034MDFQAAAAAdAAAAABAD'
         ],
+    ],
+    'technologies' =>
+    [
+        [
+            'name' => 'Laravel',
+            'icon' => 'https://www.google.com/url?sa=i&url=https%3A%2F%2Ficonduck.com%2Ficons%2F27594%2Flaravel&psig=AOvVaw232ClJ-zSkV44JbfTjFhNE&ust=1706216767261000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCJjjv_T29oMDFQAAAAAdAAAAABAD'
+        ]
     ]
 ]
 ?>

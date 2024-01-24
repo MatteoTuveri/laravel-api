@@ -18,7 +18,7 @@ class StoreProjectRequest extends FormRequest
      * Get the validation rules that apply to the request.
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
+     */    
     public function rules(): array
     {
         return [
@@ -35,7 +35,9 @@ class StoreProjectRequest extends FormRequest
             'title.min' => 'il titolo deve avere almeno :min caratteri',
             'title.max' => 'il titolo deve avere massimo :max caratteri',
             'release_date.required' => 'La data di rilascio è obbligatoria',
-            'image.image' => 'L\'immagine deve essere un url'
+            'image.image' => 'L\'immagine deve essere un file',
+            'category_id.exists' => 'La categoria non esiste',
+            'technologies.exists' => 'Una o più tecnologie non esistono',
         ];
     }
 }
