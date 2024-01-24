@@ -1,9 +1,10 @@
 @extends('layouts.app')
 @section('content')
     <section class="container">
-        <h1>technology Create</h1>
-        <form action="{{ route('admin.technologies.store',$technology->slug) }}" enctype="multipart/form-data" method="POST">
+        <h1>technology Edit</h1>
+        <form action="{{ route('admin.technologies.update',$technology->slug) }}" enctype="multipart/form-data" method="POST">
         @csrf
+        @method('PUT')
      <div class="mb-3">
             <label for="name">Name</label>
             <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name"
