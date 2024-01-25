@@ -71,11 +71,11 @@
 
             <div class="d-flex">
                 <div class="me-3">
-                    <img id="uploadPreview" width="100" src="https://via.placeholder.com/300x200">
+                    <img class="uploadPreview" width="100" src="{{($project->image)? asset('storage/' . $project->image) : 'https://via.placeholder.com/300x200' }}">
                 </div>
                 <div class="mb-3">
                         <label for="image">Image</label>
-                        <input type="file" class="form-control @error('image') is-invalid @enderror" name="image" id="image" value="{{old('image',$project->image)}}">
+                        <input type="file" class="form-control image-upload @error('image') is-invalid @enderror" name="image" id="image" value="{{old('image',$project->image)}}">
                         @error('image')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror

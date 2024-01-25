@@ -22,11 +22,11 @@
     </div>
     <div class="d-flex">
         <div class="me-3">
-            <img id="uploadPreview" width="100" src="https://via.placeholder.com/300x200">
+            <img class="uploadPreview" width="100" src="{{($technology->icon)? asset('storage/' . $technology->icon) : 'https://via.placeholder.com/300x200' }}">
         </div>
         <div class="mb-3">
                 <label for="icon">icon</label>
-                <input type="file" class="form-control @error('icon') is-invalid @enderror" name="icon" id="icon" value="{{old('icon',$technology->icon)}}">
+                <input type="file" class="form-control image-upload @error('icon') is-invalid @enderror" name="icon" id="icon" value="{{old('icon',$technology->icon)}}">
                 @error('icon')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror

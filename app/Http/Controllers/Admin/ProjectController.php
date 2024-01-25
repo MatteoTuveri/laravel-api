@@ -20,9 +20,9 @@ class ProjectController extends Controller
     {
         $currentUserId = Auth::id();
         if ($currentUserId == 1) {
-            $projects = Project::paginate(3);
+            $projects = Project::paginate(10);
         } else {
-            $projects = Project::where('user_id', $currentUserId)->paginate(3);
+            $projects = Project::where('user_id', $currentUserId)->paginate(10);
         }
         return view('admin.projects.index', compact('projects'));
     }
