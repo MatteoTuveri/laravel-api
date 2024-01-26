@@ -16,9 +16,9 @@ class LeadController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-        $data = $request->all();
-        $validator = Validator::make($data, [
+        //dd($request->all());
+        $mailData = $request->all();
+        $validator = Validator::make($mailData, [
             'name' => 'required',
             'email' => 'required|email',
             'address' => 'required',
@@ -33,7 +33,7 @@ class LeadController extends Controller
         }
 
         $newLead = new Lead();
-        $newLead->fill($data);
+        $newLead->fill($mailData);
         $newLead->save();
 
         Mail::to('matteo.tuveri16@gmail.com')->send(new NewContact($newLead));
