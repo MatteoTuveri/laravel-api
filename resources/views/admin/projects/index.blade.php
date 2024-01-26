@@ -40,6 +40,7 @@
     <div class="d-flex justify-content-center">
         <a href="{{ route('admin.projects.create') }}" class="btn btn-primary text-decoration-none">Add Project</a>
     </div>
+    {{$projects->links('vendor.pagination.bootstrap-5')}}
 </section>
 @include('layouts.partials.modal')
 @endsection
